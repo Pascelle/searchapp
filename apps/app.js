@@ -13,7 +13,7 @@ $(function(){
 });
 
 function getRequest(searchTerm){
-  var params = {
+  var params = {                             //these you get from the API host
     part: 'snippet',
     key: 'AIzaSyB1uS8omdog6pPYGQHdB9hcTiCSuNmRASs',
     q: searchTerm
@@ -21,15 +21,17 @@ function getRequest(searchTerm){
   url = 'https://www.googleapis.com/youtube/v3/search';
 
   $.getJSON(url, params, function(data){
-    showResults(data.Search);
+  	console.log(data);  // inspect data
+    showResults(data.items);   //you get this from examining the objects sent back 
   });
 }
 
-function showResults(results){  //this fcn should parse the data and send the desired info to the console/window
+function showResults(items){  //this fcn should parse the data and send the desired info to the console/window
   var html = "";
-  $.each(results, function(index,value){
-    html += '<p>' + value.Title + '</p>';
-    console.log(value.Title);
+  $.each(items, function(index,item){  // ex: 0: Object
+  	var video = item.snippet;
+    html += '<p>' + video.title + '</p>';
+    console.log(video.title);
      $('#search-results').html(html);
   });
  
